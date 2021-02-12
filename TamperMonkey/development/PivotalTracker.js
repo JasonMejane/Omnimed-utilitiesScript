@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pivotal Tracker Enhanced
 // @namespace    https://www.pivotaltracker.com/
-// @version      0.56
+// @version      0.57
 // @description  Pivotal Tracker enhanced for Omnimed
 // @author       Omnimed
 // @match        https://www.pivotaltracker.com/*
@@ -29,24 +29,25 @@ function capitalizeFirstLetter(string) {
 
 $(function() {
     $("head").append("<style id='omnimedStyles' type='text/css'>\n"
-        + ".devopsIcon:before{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/devops.png) !important;}"
-        + ".analyseIcon:before{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/analyse.png) !important;}"
-        + ".shadowIcon:before{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/shadow.png) !important;}"
-        + ".onAirIcon:before{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/onair.png) !important;}"
+        + ".devopsIcon{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/devops.png) !important;}"
+        + ".analyseIcon{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/analyse.png) !important;}"
+        + ".shadowIcon{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/shadow.png) !important;}"
+        + ".onAirIcon{ background-image:url(https://raw.githubusercontent.com/Omnimed/Omnimed-utilitiesScript/master/TamperMonkey/image/onair.png) !important;}"
         + ".invalidStory .preview { background-color: #fb9595 !important;}"
         + ".labelNeed { background-color: #4d5258 !important; color: white !important; border-radius: 5px ; padding: 0px 5px 0px 5px; margin-right: 2px; }"
         + ".labelMustHave { background-color: #cc0000 !important; color: white !important; border-radius: 5px ; padding: 0px 5px 0px 5px; margin-right: 2px; }"
         + ".labelShouldHave { background-color: #f0ab00 !important; color: white !important; border-radius: 5px ; padding: 0px 5px 0px 5px; margin-right: 2px;}"
+        + ".labelNiceToHave { background-color: #e1d414 !important; color: white !important; border-radius: 5px ; padding: 0px 5px 0px 5px; margin-right: 2px; }"
         + ".labelCouldHave { background-color: #0088ce !important; color: white !important; border-radius: 5px ; padding: 0px 5px 0px 5px; margin-right: 2px; }"
         + ".labelFeatureBranch { background-color: #000000!important; color: white !important; border-radius: 10px ; padding: 0px 5px 0px 5px; margin-right: 2px; }"
         + "\n</style>")
 });
 
 function updateIcons() {
-    $('.feature .labels:has(a:contains("onair"))').parentsUntil('.story').find('span.meta').addClass('onAirIcon')
-    $('.feature .labels:has(a:contains("devops"))').parentsUntil('.story').find('span.meta').addClass('devopsIcon');
-    $('.feature .labels:has(a:contains("analyse"))').parentsUntil('.story').find('span.meta').addClass('analyseIcon');
-    $('.feature .labels:has(a:contains("shadow"))').parentsUntil('.story').find('span.meta').addClass('shadowIcon');
+    $('.feature .labels:has(a:contains("onair"))').parentsUntil('.story').find('span.StoryPreviewItem__storyType___sBjDnL7T').addClass('onAirIcon')
+    $('.feature .labels:has(a:contains("devops"))').parentsUntil('.story').find('span.StoryPreviewItem__storyType___sBjDnL7T').addClass('devopsIcon');
+    $('.feature .labels:has(a:contains("analyse"))').parentsUntil('.story').find('span.StoryPreviewItem__storyType___sBjDnL7T').addClass('analyseIcon');
+    $('.feature .labels:has(a:contains("shadow"))').parentsUntil('.story').find('span.StoryPreviewItem__storyType___sBjDnL7T').addClass('shadowIcon');
 }
 
 function updateFlyoverIcons() {
@@ -126,6 +127,7 @@ function highlightLabels() {
     $("a.label:contains('besoin')").addClass('labelNeed');
     $("a.label:contains('should have')").addClass('labelShouldHave');
     $("a.label:contains('must have')").addClass('labelMustHave');
+    $("a.label:contains('nice to have')").addClass('labelNiceToHave');
     $("a.label:contains('could have')").addClass('labelCouldHave');
     $("a.label:contains('feature-')").addClass('labelFeatureBranch');
 }
@@ -591,7 +593,7 @@ $.getSprintSheet = function() {
     sprintSheet += "\n########################################################################\n";
 
     sprintSheet += "\n# Objectifs:\n";
-    
+
     sprintSheet += "\n# Épisodes:\n";
     $.each($.unique(eps.sort()), function() {
         var episode = getEpicInfo(this.toString());

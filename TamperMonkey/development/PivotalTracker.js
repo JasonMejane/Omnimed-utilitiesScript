@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pivotal Tracker Enhanced
 // @namespace    https://www.pivotaltracker.com/
-// @version      0.57
+// @version      0.58
 // @description  Pivotal Tracker enhanced for Omnimed
 // @author       Omnimed
 // @match        https://www.pivotaltracker.com/*
@@ -593,7 +593,7 @@ $.getSprintSheet = function() {
     sprintSheet += "\n########################################################################\n";
 
     sprintSheet += "\n# Objectifs:\n";
-
+    
     sprintSheet += "\n# Épisodes:\n";
     $.each($.unique(eps.sort()), function() {
         var episode = getEpicInfo(this.toString());
